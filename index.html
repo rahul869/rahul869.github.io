@@ -1,340 +1,705 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahul Sharma | Computer Science Educator</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahul Sharma — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── RESET ─────────────────────────────────────────────── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --bg-color: #0f172a; /* Slate 900 */
-            --card-bg: #1e293b; /* Slate 800 */
-            --text-primary: #f8fafc; /* Slate 50 */
-            --text-secondary: #94a3b8; /* Slate 400 */
-            --accent: #38bdf8; /* Light Blue 400 */
-            --accent-hover: #0284c7; /* Light Blue 600 */
-        }
+  /* ─── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --bg:       #0d0f14;
+    --surface:  #13161e;
+    --border:   #1e2330;
+    --text:     #e8eaf0;
+    --muted:    #5a6070;
+    --accent:   #c8f56a;        /* electric lime */
+    --accent2:  #6af5c8;        /* teal pop */
+    --danger:   #f56a6a;
+    --font-head: 'DM Serif Display', Georgia, serif;
+    --font-mono: 'DM Mono', 'Fira Code', monospace;
+    --radius:   6px;
+    --gutter:   clamp(1.5rem, 5vw, 4rem);
+  }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+  /* ─── BASE ───────────────────────────────────────────────── */
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: clamp(13px, 1.2vw, 15px);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
+  /* noise grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.3;
+  }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+  /* ─── LAYOUT ─────────────────────────────────────────────── */
+  .shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
 
-        /* Header Section */
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: fadeIn 1s ease-in-out;
-        }
+  /* ─── NAV ────────────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 15, 20, 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem var(--gutter);
+  }
+  nav .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 1.35rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .78rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
 
-        header h1 {
-            font-size: 3rem;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
+  /* ─── HERO ───────────────────────────────────────────────── */
+  .hero {
+    padding: clamp(5rem, 12vh, 9rem) 0 clamp(3rem, 7vh, 6rem);
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: .7rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(200,245,106,.25);
+    padding: .3rem .9rem;
+    border-radius: 99px;
+    margin-bottom: 1.8rem;
+    animation: fadeUp .6s ease both;
+  }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    animation: fadeUp .65s .1s ease both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    margin-top: 1.6rem;
+    max-width: 540px;
+    color: var(--muted);
+    font-size: .9rem;
+    animation: fadeUp .65s .2s ease both;
+  }
+  .hero-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp .65s .3s ease both;
+  }
 
-        header h2 {
-            font-size: 1.5rem;
-            color: var(--accent);
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
+  /* ─── BUTTONS ────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .7rem 1.5rem;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0d0f14;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #d8ff7a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,245,106,.25); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
+  /* floating accent blob */
+  .hero-blob {
+    position: absolute;
+    right: -80px;
+    top: 60px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle at 40% 40%, rgba(106,245,200,.07) 0%, transparent 70%),
+                radial-gradient(circle at 70% 70%, rgba(200,245,106,.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulse 8s ease-in-out infinite;
+  }
 
-        .contact-info a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+  /* ─── SECTIONS ───────────────────────────────────────────── */
+  section { padding: clamp(3rem, 8vh, 6rem) 0; }
+  .section-label {
+    font-size: .65rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+    color: var(--text);
+  }
 
-        .contact-info a:hover {
-            color: var(--accent);
-        }
+  /* ─── DIVIDER ────────────────────────────────────────────── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
 
-        .contact-info i {
-            margin-right: 5px;
-            color: var(--accent);
-        }
+  /* ─── STATS ROW ──────────────────────────────────────────── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 5rem;
+  }
+  .stat-cell {
+    background: var(--surface);
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: .4rem;
+  }
 
-        /* Sections */
-        section {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
+  /* ─── EXPERIENCE TIMELINE ────────────────────────────────── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 120px 1px 1fr;
+    gap: 0 2rem;
+    position: relative;
+  }
+  .timeline-date {
+    text-align: right;
+    font-size: .72rem;
+    color: var(--muted);
+    padding-top: .3rem;
+    letter-spacing: .04em;
+  }
+  .timeline-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .timeline-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    flex-shrink: 0;
+    margin-top: .45rem;
+    box-shadow: 0 0 0 3px rgba(200,245,106,.15);
+  }
+  .timeline-track {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 4px;
+  }
+  .timeline-item:last-child .timeline-track { display: none; }
+  .timeline-body {
+    padding-bottom: 3rem;
+  }
+  .timeline-company {
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: .25rem;
+  }
+  .timeline-role {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: .8rem;
+  }
+  .timeline-desc {
+    color: var(--muted);
+    font-size: .82rem;
+    line-height: 1.8;
+  }
+  .timeline-desc li { margin-left: 1.2rem; margin-top: .3rem; }
 
-        section:hover {
-            transform: translateY(-5px);
-        }
+  /* ─── SKILLS GRID ────────────────────────────────────────── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    transition: border-color .2s, transform .2s;
+    cursor: default;
+  }
+  .skill-card:hover {
+    border-color: rgba(200,245,106,.4);
+    transform: translateY(-3px);
+  }
+  .skill-icon { font-size: 1.4rem; margin-bottom: .5rem; }
+  .skill-name {
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: .6rem;
+  }
+  .skill-bar-bg {
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+    border-radius: 99px;
+    animation: growBar 1.2s ease both;
+  }
 
-        h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--text-secondary);
-            padding-bottom: 10px;
-            display: inline-block;
-        }
+  /* ─── PROJECTS ───────────────────────────────────────────── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,245,106,.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .project-card:hover { border-color: rgba(200,245,106,.35); transform: translateY(-4px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-type {
+    font-size: .65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .8rem;
+  }
+  .project-title {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-bottom: .6rem;
+    line-height: 1.3;
+  }
+  .project-desc {
+    font-size: .8rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.2rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .tag {
+    font-size: .65rem;
+    letter-spacing: .06em;
+    padding: .2rem .7rem;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    color: var(--muted);
+  }
 
-        .summary-text {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
+  /* ─── CONTACT ────────────────────────────────────────────── */
+  .contact-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (max-width: 640px) { .contact-box { grid-template-columns: 1fr; } }
+  .contact-tagline {
+    font-family: var(--font-head);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    line-height: 1.2;
+  }
+  .contact-tagline span { color: var(--accent); font-style: italic; }
+  .contact-links { display: flex; flex-direction: column; gap: .8rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .82rem;
+    transition: color .2s;
+  }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
 
-        /* Experience & Education List */
-        .item {
-            margin-bottom: 25px;
-            border-left: 2px solid var(--accent);
-            padding-left: 20px;
-            position: relative;
-        }
+  /* ─── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: .72rem;
+    color: var(--muted);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
 
-        .item::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            background-color: var(--accent);
-            border-radius: 50%;
-        }
+  /* ─── ANIMATIONS ─────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: .6; }
+    50%       { transform: scale(1.08) rotate(6deg); opacity: 1; }
+  }
+  @keyframes growBar {
+    from { width: 0; }
+  }
 
-        .item h4 {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-        }
-
-        .item .meta {
-            color: var(--accent);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .item ul {
-            list-style-type: disc;
-            margin-left: 20px;
-            color: var(--text-secondary);
-        }
-
-        .item ul li {
-            margin-bottom: 8px;
-        }
-
-        /* Skills Tags */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .skill-tag {
-            background-color: rgba(56, 189, 248, 0.1);
-            color: var(--accent);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .skill-tag:hover {
-            background-color: var(--accent);
-            color: var(--bg-color);
-        }
-
-        .skill-category {
-            margin-bottom: 15px;
-        }
-        
-        .skill-category h5 {
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            .container { padding: 20px 10px; }
-        }
-    </style>
+  /* scroll-reveal utility */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header / Hero Section -->
-        <header>
-            <h1>Rahul Sharma</h1>
-            <h2>Computer Science Educator</h2>
-            <div class="contact-info">
-                <span><i class="fas fa-envelope"></i> <a href="mailto:rahulsharmasrdr@gmail.com">rahulsharmasrdr@gmail.com</a></span>
-                <span><i class="fas fa-phone"></i> +91 7665358699</span>
-                <span><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</span>
-            </div>
-        </header>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">RS.</a>
+    <ul class="nav-links">
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
-        <!-- Summary Section -->
-        <section>
-            <h3><i class="fas fa-user-circle"></i> Summary</h3>
-            <p class="summary-text">
-                Innovative Computer Science Educator enhancing student engagement through curriculum design and experiential learning strategies. Developed proficiency in Python programming and cross-cultural communication, fostering a technology-first environment that significantly improved student technical literacy and problem-solving skills.
-            </p>
-        </section>
+<!-- HERO -->
+<div class="shell">
+  <section class="hero">
+    <div class="hero-blob"></div>
+    <span class="hero-tag">Open to opportunities</span>
+    <h1>Rahul <em>Sharma</em></h1>
+    <p class="hero-sub">
+      Technical Support &amp; Customer Experience Engineer — turning complex IT chaos into clean, human-friendly solutions across Rajasthan and beyond.
+    </p>
+    <div class="hero-actions">
+      <a href="https://linkedin.com/in/rahulsharmasrdr" class="btn btn-primary" target="_blank">↗ LinkedIn</a>
+      <a href="mailto:rahulsharmasrdr@gmail.com" class="btn btn-ghost">✉ Email me</a>
+    </div>
+  </section>
 
-        <!-- Experience Section -->
-        <section>
-            <h3><i class="fas fa-briefcase"></i> Experience</h3>
-            
-            <div class="item">
-                <h4>Computer Science Educator</h4>
-                <div class="meta">Pariskaar International School | Sujangarh, India | 01/2021 - 01/2026</div>
-                <ul>
-                    <li>Delivered rigorous, high-quality computer science instruction to Class 8-10 students in strict alignment with international CBSE frameworks.</li>
-                    <li>Designed and executed technical curriculums that connected theoretical computing concepts with practical coding applications, enhancing student engagement.</li>
-                    <li>Fostered technology-first learning environment, leading to measurable improvements in student technical literacy and logical problem-solving scores.</li>
-                    <li>Administered campus technical infrastructure, overseeing maintenance and software deployment of central computer laboratory.</li>
-                </ul>
-            </div>
+  <!-- STATS -->
+  <div class="stats reveal">
+    <div class="stat-cell">
+      <div class="stat-num">7+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">30%</div>
+      <div class="stat-label">Resolution Uplift</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">L2</div>
+      <div class="stat-label">Support Level</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">MCA</div>
+      <div class="stat-label">Degree, RTU</div>
+    </div>
+  </div>
 
-            <div class="item">
-                <h4>Remote Instructor (MCA & B.Tech Cohorts)</h4>
-                <div class="meta">Rajasthan Institute of Engineering and Technology (RIET) | Jaipur, India | 01/2020 - 01/2021</div>
-                <ul>
-                    <li>Spearheaded remote instruction for engineering and MCA students during COVID-19 transition, ensuring continuity of learning.</li>
-                    <li>Instructed core technical modules in Networking, enhancing understanding of network architecture, protocols, and data communication.</li>
-                    <li>Mentored students through AI Lab Projects, guiding them from foundational machine learning algorithms to successful model testing.</li>
-                    <li>Designed and virtually facilitated 4 specialized laboratory experiments, including virtual network topology configurations.</li>
-                </ul>
-            </div>
+  <hr class="divider">
 
-            <div class="item">
-                <h4>Computer Instructor</h4>
-                <div class="meta">Govt. Senior Secondary School | Ratangarh, India | 01/2018 - 01/2020</div>
-                <ul>
-                    <li>Established foundational IT literacy for Class 8-10 students, enhancing understanding of programming paradigms, OS navigation, and digital safety.</li>
-                    <li>Conducted hands-on computer lab sessions, promoting equal access and fostering technical understanding for diverse students.</li>
-                    <li>Maintained lab discipline and hardware integrity, supporting senior administration in meeting institutional IT requirements.</li>
-                </ul>
-            </div>
-        </section>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal">Where I've worked</h2>
 
-        <!-- Skills Section -->
-        <section>
-            <h3><i class="fas fa-code"></i> Skills</h3>
-            
-            <div class="skill-category">
-                <h5>Programming</h5>
-                <div class="skills-container">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">C++ Development</span>
-                    <span class="skill-tag">C Programming</span>
-                </div>
-            </div>
+    <div class="timeline">
 
-            <div class="skill-category">
-                <h5>Technical & IT</h5>
-                <div class="skills-container">
-                    <span class="skill-tag">Database Management</span>
-                    <span class="skill-tag">Artificial Intelligence</span>
-                    <span class="skill-tag">Educational Technology</span>
-                    <span class="skill-tag">Software Development</span>
-                    <span class="skill-tag">Computer Networks</span>
-                    <span class="skill-tag">Online Learning Tools</span>
-                    <span class="skill-tag">OS Deployment</span>
-                    <span class="skill-tag">Hardware Troubleshooting</span>
-                </div>
-            </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2024 – 2026</div>
+        <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+        <div class="timeline-body">
+          <p class="timeline-company">Manappuram Finance Ltd.</p>
+          <p class="timeline-role">Regional IT System Engineer</p>
+          <ul class="timeline-desc">
+            <li>Delivered Level 2 support across multiple branches, ensuring business continuity.</li>
+            <li>Diagnosed hardware, software, network, and access issues within SLA targets.</li>
+            <li>Managed escalations with regional stakeholders and maintained IT asset compliance.</li>
+          </ul>
+        </div>
+      </div>
 
-            <div class="skill-category">
-                <h5>Pedagogical</h5>
-                <div class="skills-container">
-                    <span class="skill-tag">Classroom Management</span>
-                    <span class="skill-tag">Curriculum Development</span>
-                    <span class="skill-tag">Virtual Instruction</span>
-                    <span class="skill-tag">Experiential Learning</span>
-                    <span class="skill-tag">Cross-cultural Communication</span>
-                </div>
-            </div>
-        </section>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2021 – 2023</div>
+        <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+        <div class="timeline-body">
+          <p class="timeline-company">CompuCom Technologies, Jaipur</p>
+          <p class="timeline-role">Support Engineer</p>
+          <ul class="timeline-desc">
+            <li>Front-line support via ticketing, remote assistance, and direct troubleshooting.</li>
+            <li>Improved ticket resolution performance by ~30% through structured processes.</li>
+            <li>Created knowledge base resources and supported software deployment and onboarding.</li>
+          </ul>
+        </div>
+      </div>
 
-        <!-- Education Section -->
-        <section>
-            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
-            
-            <div class="item">
-                <h4>Master of Computer Applications</h4>
-                <div class="meta">Rajasthan Technical University, Kota | 01/2022</div>
-            </div>
-            <div class="item">
-                <h4>Bachelor of Computer Applications</h4>
-                <div class="meta">MGSU Bikaner | 01/2018</div>
-            </div>
-            <div class="item">
-                <h4>Bachelor of Education</h4>
-                <div class="meta">S.TE.M Delhi | Delhi, India</div>
-            </div>
-        </section>
-
-        <!-- Certifications & Languages -->
-        <section>
-            <h3><i class="fas fa-award"></i> Certifications & Languages</h3>
-            <div class="item">
-                <h4>Microsoft Certified Educator (MCE)</h4>
-                <p class="summary-text" style="font-size: 0.95rem; margin-top: 5px;">Validates global educator readiness and the ability to integrate modern technical tools and 21st-century instructional design into the classroom.</p>
-            </div>
-            
-            <div class="skills-container" style="margin-top: 20px;">
-                <span class="skill-tag"><i class="fas fa-language"></i> English (Intermediate B1)</span>
-                <span class="skill-tag"><i class="fas fa-language"></i> Hindi (Upper Intermediate B2)</span>
-            </div>
-        </section>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2018 – 2021</div>
+        <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+        <div class="timeline-body">
+          <p class="timeline-company">GSSS Ratangarh</p>
+          <p class="timeline-role">Computer Science Instructor</p>
+          <ul class="timeline-desc">
+            <li>Simplified complex technical concepts into practical learning experiences.</li>
+            <li>Developed training materials and built a reputation for clarity and patience.</li>
+          </ul>
+        </div>
+      </div>
 
     </div>
+  </section>
 
-    <footer>
-        <p>&copy; 2026 Rahul Sharma. Designed for GitHub Pages.</p>
-    </footer>
+  <hr class="divider">
 
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">Competencies</p>
+    <h2 class="section-title reveal">What I bring to the table</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">🖥️</div>
+        <div class="skill-name">Windows & Active Directory</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:92%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🎫</div>
+        <div class="skill-name">Jira / Ticketing Systems</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">☁️</div>
+        <div class="skill-name">Microsoft 365</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🔧</div>
+        <div class="skill-name">Remote Support Tools</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:95%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:65%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🗄️</div>
+        <div class="skill-name">SQL</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:60%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">HTML / Web Portals</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:72%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">📋</div>
+        <div class="skill-name">SLA Compliance & ITIL</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label reveal">Projects</p>
+    <h2 class="section-title reveal">Key achievements</h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <p class="project-type">Internal Tool</p>
+        <p class="project-title">Internal Knowledge Base</p>
+        <p class="project-desc">Built and maintained a structured knowledge repository that reduced repetitive support tickets and improved first-contact resolution rates across the team.</p>
+        <div class="project-tags">
+          <span class="tag">Documentation</span>
+          <span class="tag">Process Improvement</span>
+          <span class="tag">FCR</span>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <p class="project-type">Web Development</p>
+        <p class="project-title">Internal Web Portal</p>
+        <p class="project-desc">Designed and deployed an internal web portal to centralize technical resources and communications, improving team-wide accessibility to IT documentation.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">IT Infrastructure</span>
+          <span class="tag">UX</span>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <p class="project-type">Process Optimization</p>
+        <p class="project-title">30% Resolution Efficiency Gain</p>
+        <p class="project-desc">Restructured incident triage workflows and introduced structured troubleshooting frameworks that measurably reduced average resolution time by ~30%.</p>
+        <div class="project-tags">
+          <span class="tag">SLA</span>
+          <span class="tag">Root Cause Analysis</span>
+          <span class="tag">ITSM</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-box reveal">
+      <div>
+        <p class="section-label">Get in touch</p>
+        <p class="contact-tagline">Let's build something <span>reliable</span> together.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:rahulsharmasrdr@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉</span>
+          rahulsharmasrdr@gmail.com
+        </a>
+        <a href="tel:+917664358699" class="contact-link">
+          <span class="contact-link-icon">📞</span>
+          +91 76643 58699
+        </a>
+        <a href="https://linkedin.com/in/rahulsharmasrdr" class="contact-link" target="_blank">
+          <span class="contact-link-icon">in</span>
+          linkedin.com/in/rahulsharmasrdr
+        </a>
+        <a href="#" class="contact-link">
+          <span class="contact-link-icon">📍</span>
+          Rajasthan, India
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Rahul Sharma</span>
+  <span>Built with intent · Rajasthan, India</span>
+</footer>
+
+<script>
+  // Scroll-reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
